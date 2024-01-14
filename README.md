@@ -1,2 +1,2 @@
 # cyborg-terminal
-you can edit this according you want       
+you can edit this according to you want       
