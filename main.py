@@ -1,6 +1,12 @@
 import os
 import random
-
+from colorama import Fore,Style
+def root():
+    if os.name == 'nt':
+        usr=input('Enter the user name: ')
+        os.system(f'runas /user:{usr} cmd')
+    elif os.name == 'posix':
+        print('this is in working status')
 def current_path():
     print(os.getcwd())
 
@@ -31,7 +37,10 @@ def banner():
     print(selected_banner)
 
 def clear():
-    os.system('cls')
+    if os.name == 'nt':
+        os.system('cls')
+    elif os.name == 'posix':
+        os.system('clear')
 
 def help():
     clear()
@@ -63,9 +72,23 @@ def changing_dir(path):
         print("This path did not exist")
     except FileNotFoundError as e:
         print("This path did not exist")
-import nmap
 
+def rerunning():
+    file_path = __file__
+    try:
+        os.chdir(file_path)
+        file_name = os.path.basename(file_path)
+        os.system('python3 '+file_name)
+    except FileNotFoundError as e:
+        print('the file did not found')
 
+def rerun():
+    try:
+        return 0
+    except TypeError as e:
+        print(e)
+    else:
+        rerunning()
 
 
 def main():
@@ -74,15 +97,16 @@ def main():
     user = "xyz"
     while user.lower() not in ["exit", "e"]:
         current_path()
-        print("|--(CYBORG)-> ", end="")
+        print(Fore.RED + "|--(CYBORG)-> " + Style.RESET_ALL, end="")
         user = None
         user = input()
-
 
         if user.lower() == "exit" or user.lower() == "e":
             exit()
         elif user.lower() == "help" or user.lower() == "h":
             help()
+        elif user.lower() == 'rerun':
+            rerun()
         elif user.lower() == "nmap":
             print("NMAP IS IN WORKING STATUS")
         elif user.lower() == "ls":
@@ -90,14 +114,13 @@ def main():
         elif user.lower() == "banner":
             banner()
         elif user.startswith("cd "):
-            path=user.split(" ")[1]
+            path = user.split(" ")[1]
             changing_dir(path)
-
+        elif user.lower() == 'root':
+            root()
         else:
             trrying(user)
 
+
 if __name__ == "__main__":
     main()
-
-
-
